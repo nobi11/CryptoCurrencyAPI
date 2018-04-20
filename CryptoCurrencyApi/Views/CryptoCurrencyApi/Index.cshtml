@@ -1,0 +1,60 @@
+﻿@using Microsoft.AspNetCore.Html
+@model CryptoCurrencyApi.Models.CryptoCurrency
+<style>
+    #apiDiv {
+        padding-left: 10px;
+    }
+
+        #apiDiv select, #apiDiv button {
+            font-size: 15px;
+        }
+
+        #apiDiv h4 {
+            margin: 10px 0;
+        }
+
+        #apiDiv #message table {
+            width: 100%;
+            border: double 1px #00ffff;
+            background: #C1FFC1;
+        }
+
+            #apiDiv #message table th {
+                text-align: left;
+            }
+</style>
+
+<h1>CryptoCurrency API</h1>
+@using (Html.BeginForm())
+{<button id="reset" name="reset">Reset »</button>}
+
+ <div id="apiDiv">
+     <h4>Select Desired CryptoCurrency</h4>
+     @using (Html.BeginForm())
+    {
+        foreach (var currency in Model.currencies)
+        {
+         <span>
+             @Html.RadioButtonFor(m => m.currencies, currency.Value, new { @id = currency.Value }) @currency.Key &nbsp;
+         </span>
+    }
+
+ <button id="submit" type="submit" name="submit">Submit</button>
+ <br><br />
+ @*@Html.ActionLink("ExportCSV", "ExportCSV", "CryptoCurrencyApi", new { @class = "btn-primary" }, null)*@
+ <button id="export" type="submit" name="export">Export</button>
+ <br><br />
+}
+     <div id="message">@(new HtmlString(Model.apiResponse))</div>
+ </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("input[id='currencies']").change(function () {
+            $(this).parents("#apiDiv").find("span").css("background", "none");
+            $(this).parent().css("background", "#9BCD9B");
+        });
+    });
+</script>
+
